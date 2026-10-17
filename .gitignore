@@ -1,0 +1,9 @@
+
+venvv/
+.venv/
+__pycache__/
+*.pyc
+AcneDataset/
+dataset/
+Dataset/
+.streamlit/secrets.toml
