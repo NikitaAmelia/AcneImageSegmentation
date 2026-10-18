@@ -1,10 +1,10 @@
+
 streamlit
 torch
 torchvision
 segmentation-models-pytorch
 albumentations
-opencv-python
+opencv-python-headless
 scikit-image
 numpy
 Pillow
-opencv-python-headless
