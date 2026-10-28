@@ -568,27 +568,45 @@ if missing_files:
 
 
 # ============================================================
-# UPLOAD IMAGE
+# IMAGE INPUT: UPLOAD ATAU KAMERA
 # ============================================================
 
-uploaded_file = st.file_uploader(
-    "Upload gambar jerawat",
-    type=["jpg", "jpeg", "png"],
-    help="Upload satu gambar jerawat untuk dilakukan pseudo-mask dan segmentasi.",
+st.subheader("📷 Input Gambar")
+
+input_method = st.radio(
+    "Pilih cara memasukkan gambar:",
+    ["Upload Gambar", "Gunakan Kamera"],
+    horizontal=True
 )
+
+image_file = None
+
+if input_method == "Upload Gambar":
+    image_file = st.file_uploader(
+        "Upload gambar jerawat",
+        type=["jpg", "jpeg", "png"],
+        help="Pilih satu gambar jerawat dari perangkat."
+    )
+
+else:
+    image_file = st.camera_input(
+        "Ambil foto menggunakan kamera",
+        help="Izinkan akses kamera jika browser memintanya, lalu ambil foto."
+    )
 
 
 # ============================================================
 # INFERENCE
 # ============================================================
 
-if uploaded_file is not None:
+if image_file is not None:
 
     # --------------------------------------------------------
     # READ IMAGE
     # --------------------------------------------------------
 
-    pil_image = Image.open(uploaded_file).convert("RGB")
+    # Membaca gambar dari upload atau kamera
+    pil_image = Image.open(image_file).convert("RGB")
     original_np = np.array(pil_image)
 
     # Sama dengan alur visualisasi notebook: image diproses pada 256x256.
