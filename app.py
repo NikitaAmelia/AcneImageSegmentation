@@ -24,6 +24,18 @@ st.set_page_config(
     layout="wide",
 )
 
+st.markdown(
+    """
+    <style>
+        [data-testid="stSidebar"] {
+            min-width: 400px;
+            max-width: 400px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # ============================================================
 # CUSTOM STYLE
 # ============================================================
@@ -525,9 +537,59 @@ with st.sidebar:
         ["Superpixel", "CAM"],
     )
 
+    # Panduan pemilihan metode pseudo-mask
+    if method == "Superpixel":
+        st.info(
+            "**Superpixel (SLIC)**\n\n"
+            "Membentuk pseudo-mask berdasarkan kemiripan "
+            "karakteristik visual dan kedekatan spasial antarpiksel.\n\n"
+            "**Pertimbangan:** Dapat dipertimbangkan ketika lesi "
+            "memiliki perbedaan visual yang cukup jelas dari kulit "
+            "di sekitarnya."
+        )
+
+    else:
+        st.info(
+            "**CAM-Based**\n\n"
+            "Membentuk pseudo-mask berdasarkan aktivasi model "
+            "klasifikasi yang menunjukkan wilayah citra yang "
+            "berkontribusi terhadap prediksi kelas.\n\n"
+            "**Pertimbangan:** Dapat dipertimbangkan ketika pengguna "
+            "ingin memanfaatkan informasi lokalisasi dari model "
+            "klasifikasi sebagai petunjuk area lesi."
+        )
+
+    st.caption(
+        "Catatan: Rekomendasi didasarkan pada karakteristik metode "
+        "dan hasil pengujian penelitian."
+    )
+
     architecture = st.selectbox(
         "Model Segmentasi",
         ["U-Net", "U-Net++"],
+    )
+
+    if architecture == "U-Net":
+        st.info(
+            "**U-Net**\n\n"
+            "Model segmentasi dengan arsitektur encoder-decoder "
+            "dan skip connection untuk menggabungkan informasi fitur.\n\n"
+            "**Pertimbangan:** Dapat digunakan sebagai model dasar "
+            "untuk mempelajari area lesi jerawat."
+        )
+    else:
+        st.info(
+            "**U-Net++**\n\n"
+            "Pengembangan U-Net dengan nested skip connection "
+            "untuk memperkaya penggabungan fitur encoder dan decoder.\n\n"
+            "**Pertimbangan:** Dapat digunakan untuk mengevaluasi "
+            "pendekatan penggabungan fitur yang lebih kompleks."
+        )
+
+    st.caption(
+        "Catatan: Pemilihan model tidak menjamin hasil segmentasi yang lebih baik. "
+        "Performa bergantung pada metode pseudo-mask dan konfigurasi "
+        "pelatihan yang digunakan."
     )
 
     st.divider()
