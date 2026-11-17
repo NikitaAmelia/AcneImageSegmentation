@@ -630,31 +630,16 @@ if missing_files:
 
 
 # ============================================================
-# IMAGE INPUT: UPLOAD ATAU KAMERA
+# IMAGE INPUT: UPLOAD GAMBAR
 # ============================================================
 
 st.subheader("📷 Input Gambar")
 
-input_method = st.radio(
-    "Pilih cara memasukkan gambar:",
-    ["Upload Gambar", "Gunakan Kamera"],
-    horizontal=True
+image_file = st.file_uploader(
+    "Upload gambar jerawat",
+    type=["jpg", "jpeg", "png"],
+    help="Pilih satu gambar jerawat dari perangkat."
 )
-
-image_file = None
-
-if input_method == "Upload Gambar":
-    image_file = st.file_uploader(
-        "Upload gambar jerawat",
-        type=["jpg", "jpeg", "png"],
-        help="Pilih satu gambar jerawat dari perangkat."
-    )
-
-else:
-    image_file = st.camera_input(
-        "Ambil foto menggunakan kamera",
-        help="Izinkan akses kamera jika browser memintanya, lalu ambil foto."
-    )
 
 
 # ============================================================
@@ -667,7 +652,7 @@ if image_file is not None:
     # READ IMAGE
     # --------------------------------------------------------
 
-    # Membaca gambar dari upload atau kamera
+    # Membaca gambar yang diunggah
     pil_image = Image.open(image_file).convert("RGB")
     original_np = np.array(pil_image)
 
